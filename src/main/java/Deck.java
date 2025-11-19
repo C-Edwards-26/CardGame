@@ -36,6 +36,12 @@ public class Deck {
     }
 
     public void shuffle() {
+        for (int i = cards.size() - 1; i > 0; i--) {
+            int random = (int)(Math.random() * i);
+            Card temp = new Card(cards.get(i));
+            cards.set(i, cards.get(random));
+            cards.set(random, temp);
+        }
     }
     @Override
     public String toString() {

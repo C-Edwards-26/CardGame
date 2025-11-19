@@ -5,6 +5,7 @@ public class Game {
         int[] values = {1,2,3};
         Deck newDeck = new Deck(ranks, suits, values);
         System.out.println(newDeck);
-        System.out.println(newDeck.isEmpty());
+        newDeck.shuffle();
+        System.out.println(newDeck);
     }
 }
