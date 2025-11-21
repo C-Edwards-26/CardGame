@@ -27,7 +27,7 @@ public class Deck {
         return cardsLeft;
     }
 
-    public Card Deal() {
+    public Card deal() {
         if (this.cardsLeft == 0) {
             return null;
         }
