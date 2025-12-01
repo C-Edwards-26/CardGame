@@ -37,11 +37,12 @@ public class Deck {
 
     public void shuffle() {
         for (int i = cards.size() - 1; i > 0; i--) {
-            int random = (int)(Math.random() * i);
-            Card temp = new Card(cards.get(i));
+            int random = (int)(Math.random() * (i+1));
+            Card temp = cards.get(i);
             cards.set(i, cards.get(random));
             cards.set(random, temp);
         }
+        cardsLeft = cards.size();
     }
     @Override
     public String toString() {
