@@ -37,9 +37,27 @@ public class Player {
         hand.add(newCard);
     }
 
+    public void playCard(int i) {
+        System.out.println("The card dealt is the " + hand.get(i) + "!");
+        hand.remove(i);
+    }
+
+    public void shuffleHand() {
+        for (int i = hand.size() - 1; i > 0; i--) {
+            int r = (int)(Math.random() * (i+1));
+            Card temp = hand.get(i);
+            hand.set(i, hand.get(r));
+            hand.set(r, temp);
+        }
+    }
+
+    public Card playTopCard(){
+        return hand.remove(0);
+    }
+
     @Override
     public String toString() {
-        return name + " has " + points + "points. " +
+        return name + " has " + points + " points. " +
                 name + "s cards: " + hand;
     }
 }

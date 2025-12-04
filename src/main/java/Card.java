@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Card {
     private String rank;
     private String suit;
@@ -25,6 +27,18 @@ public class Card {
 
     public int getValue() {
         return value;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Card)) return false;
+        Card other = (Card) o;
+        return this.rank.equals(other.rank) &&
+                this.suit.equals(other.suit);
+    }
+
+    @Override
+    public int hashCode() {
+        return (rank + suit).hashCode();
     }
 
     public void setRank(String rank) {
