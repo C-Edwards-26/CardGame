@@ -48,8 +48,6 @@ public class GameViewer extends JFrame {
         g.setColor(Color.black);
         g.drawImage(Gambling, 125, 250, 325, 500, this);
         g.drawImage(Gambling, 1065, 250, 325, 500, this);
-        System.out.println(Gambling.getWidth(null));
-        System.out.println(System.getProperty("user.dir"));
     }
 
 }
