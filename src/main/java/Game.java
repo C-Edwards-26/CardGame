@@ -7,40 +7,43 @@ public class Game {
     public final static String[] totalRanks = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
     public final static String[] totalSuits = {"Hearts", "Clubs", "Spades", "Diamonds"};
     public final static int[] totalValues = {1,2,3,4,5,6,7,8,9,10,11,12,13};
+    public static final String INSTRUCTIONS = "--------------------------------------------------------------------------------\n" +
+            "                             GAME OF PURE STRATEGY\n" +
+            "--------------------------------------------------------------------------------\n" +
+            "Overview:\n" +
+            "This is a bidding game played with a standard 52-card deck.\n" +
+            "Each suit is given to one player:\n" +
+            "  • Hearts   → You\n" +
+            "  • Clubs    → Bot 1\n" +
+            "  • Spades   → Dealer (prize cards)\n" +
+            "  • Diamonds → discarded\n" +
+            "\n" +
+            "How the game works:\n" +
+            "1. The dealer reveals one prize card each round.\n" +
+            "2. Every player bids a card from their hand.\n" +
+            "3. The highest card wins the prize card's value in points.\n" +
+            "4. All bid cards are discarded after the round.\n" +
+            "5. The game lasts 13 rounds.\n" +
+            "\n" +
+            "Card Strength:\n" +
+            "A = 1, 2 = 2, ..., 10 = 10, J = 11, Q = 12, K = 13\n" +
+            "Highest number wins the round.\n" +
+            "\n";
+//            "Two-Bot Mode Details:\n" +
+//            "• You bid against Bot 1 and Bot 2.\n" +
+//            "• If two or more bids tie for highest, the prize is discarded.\n" +
+//            "\n" +
+//            "At the end of 13 rounds:\n" +
+//            "• The player with the most points wins.\n" +
+//            "-----------------------------------------------------------------";
 
-    public Game() {}
+    public Game() {
+        GameViewer viewer = new GameViewer(this);
+    }
 
     // Instructions to be printed before game starts
     public void printInstructions() {
-        System.out.println("-----------------------------------------------------");
-        System.out.println("              GAME OF PURE STRATEGY");
-        System.out.println("-----------------------------------------------------");
-        System.out.println("Overview:");
-        System.out.println("This is a bidding game played with a standard 52-card deck.");
-        System.out.println("Each suit is given to one player:");
-        System.out.println("  • Hearts   → You");
-        System.out.println("  • Clubs    → Bot 1");
-        System.out.println("  • Diamonds → Bot 2 (only in 2-bot mode)");
-        System.out.println("  • Spades   → Dealer (prize cards)");
-        System.out.println();
-        System.out.println("How the game works:");
-        System.out.println("1. The dealer (Spades suit) reveals one prize card each round.");
-        System.out.println("2. Every player bids a card from their hand.");
-        System.out.println("3. The highest card wins the prize card's value in points.");
-        System.out.println("4. All bid cards are discarded after the round.");
-        System.out.println("5. The game lasts 13 rounds.");
-        System.out.println();
-        System.out.println("Card Strength:");
-        System.out.println("A = 1, 2 = 2, ..., 10 = 10, J = 11, Q = 12, K = 13");
-        System.out.println("Highest number wins the round.");
-        System.out.println();
-        System.out.println("Two-Bot Mode Details:");
-        System.out.println("• You bid against Bot 1 and Bot 2.");
-        System.out.println("• If two or more bids tie for highest, the prize is discarded.");
-        System.out.println();
-        System.out.println("At the end of 13 rounds:");
-        System.out.println("• The player with the most points wins.");
-        System.out.println("-----------------------------------------------------------------");
+        System.out.println(INSTRUCTIONS);
     }
 
     //Logic to intiialize the play game sq=equence
