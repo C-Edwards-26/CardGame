@@ -4,6 +4,9 @@ import java.util.Scanner;
 public class Game {
     private Player players;
     private Deck deck;
+    int currentPrizeCard;
+    int currentPlayerBid;
+    GameViewer viewer;
     public final static String[] totalRanks = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
     public final static String[] totalSuits = {"Hearts", "Clubs", "Spades", "Diamonds"};
     public final static int[] totalValues = {1,2,3,4,5,6,7,8,9,10,11,12,13};
@@ -38,7 +41,7 @@ public class Game {
 //            "-----------------------------------------------------------------";
 
     public Game() {
-        GameViewer viewer = new GameViewer(this);
+        viewer = new GameViewer(this);
     }
 
     // Instructions to be printed before game starts
@@ -81,14 +84,17 @@ public class Game {
         System.out.println("The game begins!");
 
         for (int round = 1; round <= 13; round++) {
+            viewer.repaint();
             System.out.println("\n ------ Round " + round + " -----");
 
             // Reveal prize card
             Card prize = dealer.playTopCard();
+            currentPrizeCard = prize.getValue();
             System.out.println("Prize card: " + prize + " (worth " + prize.getValue() + " points)");
 
             // Player bid
             Card playerBid = askForBid(p1);
+            currentPlayerBid = playerBid.getValue();
 
             // Bot chooses bid randomly
             Card botBid = botBid(Bot1);
@@ -173,6 +179,14 @@ public class Game {
             if (totalRanks[i].equals(r)) val = totalValues[i];
         }
         return new Card(r, s, val);
+    }
+
+    public int getCurrentPrizeCard() {
+        return currentPrizeCard;
+    }
+
+    public int getCurrentPlayerBid() {
+        return currentPlayerBid;
     }
 
     // My ATTEMPT for two bot game (got too complciated)
