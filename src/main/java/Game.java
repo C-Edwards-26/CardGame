@@ -5,7 +5,13 @@ public class Game {
     private Player players;
     private Deck deck;
     int currentPrizeCard;
+    int currentBotBid;
     int currentPlayerBid;
+    int currentPlayerPoints;
+    int currentBotPoints;
+    boolean gameOver;
+    boolean won;
+    boolean tie;
     GameViewer viewer;
     public final static String[] totalRanks = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
     public final static String[] totalSuits = {"Hearts", "Clubs", "Spades", "Diamonds"};
@@ -98,15 +104,18 @@ public class Game {
 
             // Bot chooses bid randomly
             Card botBid = botBid(Bot1);
+            currentBotBid = botBid.getValue();
 
             System.out.println("Bot plays: " + botBid);
 
             //Determine winner
             if (playerBid.getValue() > botBid.getValue()) {
                 p1.addPoints(prize.getValue());
+                currentPlayerPoints = p1.getPoints();
                 System.out.println("You win the round and earn " + prize.getValue() + " points!");
             } else if (playerBid.getValue() < botBid.getValue()) {
                 Bot1.addPoints(prize.getValue());
+                currentBotPoints = Bot1.getPoints();
                 System.out.println("Bot wins the round and earns " + prize.getValue() + " points!");
             } else {
                 System.out.println("Tie! Prize discarded.");
@@ -114,14 +123,23 @@ public class Game {
             System.out.println("Score → You: " + p1.getPoints() + " | Bot: " + Bot1.getPoints());
         }
         // Final result
+        gameOver = true;
         System.out.println(" -------- GAME OVER ------- ");
+        viewer.repaint();
         if(p1.getPoints() > Bot1.getPoints()) {
             System.out.println("🎉 You win with " + p1.getPoints() + " points!");
+            won = true;
+            viewer.repaint();
         }
-        else if (p1.getPoints() < Bot1.getPoints())
+        else if (p1.getPoints() < Bot1.getPoints()) {
+            won = false;
             System.out.println("🤖 Bot wins with " + Bot1.getPoints() + " points!");
+            viewer.repaint();
+        }
         else
             System.out.println("It's a tie!");
+            tie = true;
+            viewer.repaint();
     }
 
     public void playCard(Player shuffle) {
@@ -187,6 +205,30 @@ public class Game {
 
     public int getCurrentPlayerBid() {
         return currentPlayerBid;
+    }
+
+    public int getCurrentBotBid() {
+        return currentBotBid;
+    }
+
+    public int getCurrentPlayersPoints() {
+        return currentPlayerPoints;
+    }
+
+    public int getCurrentBotPoints() {
+        return currentBotPoints;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public boolean isWon() {
+        return won;
+    }
+
+    public boolean isTie() {
+        return tie;
     }
 
     // My ATTEMPT for two bot game (got too complciated)
