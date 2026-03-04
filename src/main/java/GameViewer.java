@@ -29,6 +29,7 @@ public class GameViewer extends JFrame implements KeyListener {
     private Image[] spadesCardImages;
 
     // Background and extra images
+    private Image wonBackgroundImage;
     private Image backgroundImage;
     private Image mainBackground;
     private Image Gambling;
@@ -68,7 +69,8 @@ public class GameViewer extends JFrame implements KeyListener {
             clubsCardImages[i]    = new ImageIcon(RESOURCE_PATH + (i * 4 + 4) + ".png").getImage();
         }
 
-        // Load background images
+        // Load background imagesConfeti.jpg
+        wonBackgroundImage = new ImageIcon(RESOURCE_PATH+ "Confeti.jpg").getImage();
         backgroundImage = new ImageIcon(RESOURCE_PATH+"PokerTable.png").getImage();
         Gambling = new ImageIcon(RESOURCE_PATH + "hangover.JPEG").getImage();
         cardBack = new ImageIcon(RESOURCE_PATH + "back.png").getImage();
@@ -95,12 +97,12 @@ public class GameViewer extends JFrame implements KeyListener {
 
     // Draws the main game screen.
     public void paintSecondScreen(Graphics g) {
-        checkWinLooseScreen(g, 400, 350);
         g.drawImage(backgroundImage, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
         drawPlayersCards(g, 325, 600);
         drawBotsCards(g, 325, 100);
         drawDealingCards(g, 575, 350);
         drawScoring(g, 180, 420);
+        checkWinLooseScreen(g, 400, 450);
     }
 
     // Draws the welcome/instructions screen.
@@ -164,49 +166,47 @@ public class GameViewer extends JFrame implements KeyListener {
         if (currentPrizeCard > 0) {
             g.drawImage(spadesCardImages[currentPrizeCard - 1], x + 200, y, 100, 200, this);
         }
-
-        g.setFont(new Font("Intel", Font.BOLD, 38));
-        g.drawString("Dealt", x, y-10);
-        g.drawString("Prize", x + 202, y-10);
         g.drawRect(x-5,y-5,110,210);
         g.drawRect(x+195,y-5,110,210);
     }
+
+    // Draws current score.
     public void drawScoring(Graphics g, int x, int y) {
         g.setFont(new Font("Intel", Font.BOLD, 38));
         g.drawString("YOUR SCORE: " + window.getCurrentPlayersPoints(), x, y);
-        g.drawString("BOT SCORE: " + window.getCurrentBotBid(), x + 802, y);
+        g.drawString("BOT SCORE: " + window.getCurrentBotPoints(), x + 802, y);
     }
 
     // Checks wins or losses and prints said screen
     public void checkWinLooseScreen(Graphics g, int x, int y) {
         if (window.isGameOver()) {
             g.setColor(new Color(18, 181, 86));
-            g.fillRect(0, 0,WINDOW_WIDTH, WINDOW_HEIGHT);
+            g.drawImage(wonBackgroundImage, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
             g.setColor(new Color(184, 164, 15));
             g.setFont(new Font("Intel", Font.BOLD, 120));
             if (window.isTie()) {
+                g.drawString("AWWW..." , x, y - 125);
                 g.drawString("IT'S A TIE!!! ", x, y);
                 g.setColor(Color.black);
                 g.setFont(new Font("Intel", Font.BOLD, 38));
                 g.drawString("YOUR SCORE: " + window.getCurrentPlayersPoints(), x+ 100, y+ 100);
-                g.drawString("BOT SCORE: " + window.getCurrentBotBid(), x + 100, y+ 150);
-                g.drawString("YOUR SCORE: " + window.getCurrentPlayersPoints(), x+ 100, y+ 100);
+                g.drawString("BOT SCORE: " + window.getCurrentBotPoints(), x + 100, y+ 150);
             }
             else if (window.isWon()) {
+                g.drawString("CONGRATS!!" , x, y - 125);
                 g.drawString("YOU WON!!! ", x, y);
                 g.setColor(Color.black);
                 g.setFont(new Font("Intel", Font.BOLD, 38));
                 g.drawString("YOUR SCORE: " + window.getCurrentPlayersPoints(), x+ 100, y+ 100);
-                g.drawString("BOT SCORE: " + window.getCurrentBotBid(), x + 100, y+ 150);
-                g.drawString("YOUR SCORE: " + window.getCurrentPlayersPoints(), x+ 100, y+ 100);
+                g.drawString("BOT SCORE: " + window.getCurrentBotPoints(), x + 100, y+ 150);
             }
             else {
+                g.drawString("AWWW..." , x, y - 125);
                 g.drawString("YOU LOST!!! " , x, y);
                 g.setColor(Color.black);
                 g.setFont(new Font("Intel", Font.BOLD, 38));
                 g.drawString("YOUR SCORE: " + window.getCurrentPlayersPoints(), x+ 100, y+ 100);
-                g.drawString("BOT SCORE: " + window.getCurrentBotBid(), x + 100, y+ 150);
-                g.drawString("YOUR SCORE: " + window.getCurrentPlayersPoints(), x+ 100, y+ 100);
+                g.drawString("BOT SCORE: " + window.getCurrentBotPoints(), x + 100, y+ 150);
             }
         }
     }

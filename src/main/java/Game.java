@@ -125,22 +125,21 @@ public class Game {
         // Final result
         gameOver = true;
         System.out.println(" -------- GAME OVER ------- ");
-        viewer.repaint();
         if(p1.getPoints() > Bot1.getPoints()) {
             System.out.println("🎉 You win with " + p1.getPoints() + " points!");
             won = true;
-            viewer.repaint();
         }
         else if (p1.getPoints() < Bot1.getPoints()) {
             won = false;
             System.out.println("🤖 Bot wins with " + Bot1.getPoints() + " points!");
-            viewer.repaint();
         }
-        else
+        else {
             System.out.println("It's a tie!");
             tie = true;
-            viewer.repaint();
+        }
+        viewer.repaint();
     }
+
 
     public void playCard(Player shuffle) {
             int random = (int)(Math.random() * (shuffle.getHand().size()));
@@ -198,6 +197,8 @@ public class Game {
         }
         return new Card(r, s, val);
     }
+
+    // Getters for variable inputs for the gameViewer.
 
     public int getCurrentPrizeCard() {
         return currentPrizeCard;
