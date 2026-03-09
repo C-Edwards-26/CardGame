@@ -167,6 +167,8 @@ public class Game {
 
     // BOT LOGIC
     public Card botBid(Player bot) {
+        // use Prize.getValue() to get the prize value, then check if the bot has the cards around that,
+        // then if so, pull from those cards.
         int index = (int)(Math.random() * bot.getHand().size());
         return bot.getHand().remove(index);
     }
