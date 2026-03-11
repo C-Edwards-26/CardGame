@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -167,10 +168,30 @@ public class Game {
 
     // BOT LOGIC
     public Card botBid(Player bot) {
-        // use Prize.getValue() to get the prize value, then check if the bot has the cards around that,
-        // then if so, pull from those cards.
-        int index = (int)(Math.random() * bot.getHand().size());
-        return bot.getHand().remove(index);
+        // Possible Cards is a array of cards it will randomly chose from.
+        // It's the highest 5 that are at most 2 over the price card. ex prize is 7, max is 9.
+        ArrayList<Card> possibleCards = new ArrayList<Card>();
+        // Loop through bot hand
+        for (int i = 0; i < bot.getHand().size(); i++) {
+            // Add all that are at most 2 over the price card.
+            if (bot.getHand().get(i).getValue() < currentPrizeCard + 3) {
+                possibleCards.add(bot.getHand().get(i));
+            }
+        }
+        // If no cards meet that at most 2 over, just take the smallest
+        if (possibleCards.isEmpty()) {
+            possibleCards.add(bot.getHand().get(0));
+        }
+        // Trim to 5 if applicable
+        while (possibleCards.size() > 5) {
+            possibleCards.remove(0);
+        }
+        // Get random index
+        int index = (int) (Math.random() * possibleCards.size());
+        // Get the chosen card
+        Card chosen = possibleCards.get(index);
+        // Return card and remove it from bot's hand
+        return bot.getHand().remove(bot.getHand().indexOf(chosen));
     }
     // TRIM CARD LOGIC FOR CHECKING IF A CARD IS A CARD.
     public Card trimCard(String input) {
