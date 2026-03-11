@@ -169,8 +169,30 @@ public class Game {
     public Card botBid(Player bot) {
         // use Prize.getValue() to get the prize value, then check if the bot has the cards around that,
         // then if so, pull from those cards.
-        int index = (int)(Math.random() * bot.getHand().size());
-        return bot.getHand().remove(index);
+        //int index = (int)(Math.random() * bot.getHand().size());
+
+        // add highest cards within 2 of prize value
+//        for (int i = Prize.getValue + 2; i > 0 || possibleCards.size() < 5; i--) {
+//            if (bot.getHand().get(i) != null) {
+//                possibleCards.add(bot.getHand().get(i));
+//            }
+//        }
+        ArrayList<Card> possibleCards = new ArrayList<Card>();
+        // int counter = 0;
+        for (int i = 0; i < bot.getHand().size(); i++) {
+            if (bot.getHand().get(i).getValue() < Prize.getValue() + 3) {
+                possibleCards.add(bot.getHand().get(i));
+            }
+        }
+        if (possibleCards.size() == 0) {
+            possibleCards.add(bot.getHand().get(0));
+        }
+        while (possibleCards.size() > 5) {
+            possibleCards.remove(0);
+        }
+        int index = (int) (Math.random() * possibleCards.size());
+        Card chosen = possibleCards.get(index);
+        return bot.getHand().remove(chosen);
     }
     // TRIM CARD LOGIC FOR CHECKING IF A CARD IS A CARD.
     public Card trimCard(String input) {
