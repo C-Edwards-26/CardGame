@@ -22,6 +22,8 @@ public class GameViewer extends JFrame implements KeyListener {
     // Reference to the Game logic class
     private Game window;
 
+    private JButton restartButton;
+
     // Arrays storing images for each suit
     private Image[] heartsCardImages;
     private Image[] diamondsCardImages;
@@ -61,15 +63,10 @@ public class GameViewer extends JFrame implements KeyListener {
         diamondsCardImages = new Image[13];
         clubsCardImages = new Image[13];
 
-        // Load card images into arrays
-        for (int i = 0; i < 13; i++) {
-            spadesCardImages[i]   = new ImageIcon(RESOURCE_PATH + (i * 4 + 1) + ".png").getImage();
-            heartsCardImages[i]   = new ImageIcon(RESOURCE_PATH + (i * 4 + 2) + ".png").getImage();
-            diamondsCardImages[i] = new ImageIcon(RESOURCE_PATH + (i * 4 + 3) + ".png").getImage();
-            clubsCardImages[i]    = new ImageIcon(RESOURCE_PATH + (i * 4 + 4) + ".png").getImage();
-        }
+        // Call our new method to load the images
+        loadCardImages();
 
-        // Load background imagesConfeti.jpg
+        // Load background images
         wonBackgroundImage = new ImageIcon(RESOURCE_PATH+ "Confeti.jpg").getImage();
         backgroundImage = new ImageIcon(RESOURCE_PATH+"PokerTable.png").getImage();
         Gambling = new ImageIcon(RESOURCE_PATH + "hangover.JPEG").getImage();
@@ -79,9 +76,33 @@ public class GameViewer extends JFrame implements KeyListener {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("Card Game");
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        this.setVisible(true);
+        this.setLayout(null); // Allows us to use absolute coordinates for the button
 
-        // Enable Key Listener
+        // Initialize Restart Button
+        // --- NEW RESTART BUTTON SETUP ---
+        restartButton = new JButton("Restart Game");
+
+        // You may want to move the button to the top-left corner so it doesn't
+        // block your cards during gameplay! (x=20, y=20)
+        restartButton.setBounds(20, 20, 200, 50);
+
+        restartButton.setFont(new Font("Arial", Font.BOLD, 20));
+
+        // 1. CHANGE THIS TO TRUE so it is always visible
+        restartButton.setVisible(true);
+        restartButton.setFocusable(false);
+
+        restartButton.addActionListener(e -> {
+            // 2. WE REMOVED the setVisible(false) line from here!
+            window.reset();
+            loadCardImages();
+            repaint();
+            new Thread(() -> window.gameOne()).start();
+        });
+
+        this.add(restartButton);
+        // --------------------------------
+        this.setVisible(true);
         this.addKeyListener(this);
     }
     public void paint(Graphics g) {
@@ -92,6 +113,12 @@ public class GameViewer extends JFrame implements KeyListener {
             paintSecondScreen(g);
         } else {
             paintWelcomeScreen(g);
+        }
+
+        // CRITICAL FIX: Use paintComponents(g) to safely draw the button on top!
+        // Do NOT use restartButton.repaint() here, or it will create an infinite loop.
+        if (restartButton != null && restartButton.isVisible()) {
+            super.paintComponents(g);
         }
     }
 
@@ -180,6 +207,8 @@ public class GameViewer extends JFrame implements KeyListener {
     // Checks wins or losses and prints said screen
     public void checkWinLooseScreen(Graphics g, int x, int y) {
         if (window.isGameOver()) {
+            // ---> We REMOVED the setVisible line from here <---
+
             g.setColor(new Color(18, 181, 86));
             g.drawImage(wonBackgroundImage, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
             g.setColor(new Color(184, 164, 15));
@@ -209,6 +238,20 @@ public class GameViewer extends JFrame implements KeyListener {
                 g.drawString("BOT SCORE: " + window.getCurrentBotPoints(), x + 100, y+ 150);
             }
         }
+    }
+
+    public void loadCardImages() {
+        for (int i = 0; i < 13; i++) {
+            spadesCardImages[i]   = new ImageIcon(RESOURCE_PATH + (i * 4 + 1) + ".png").getImage();
+            heartsCardImages[i]   = new ImageIcon(RESOURCE_PATH + (i * 4 + 2) + ".png").getImage();
+            diamondsCardImages[i] = new ImageIcon(RESOURCE_PATH + (i * 4 + 3) + ".png").getImage();
+            clubsCardImages[i]    = new ImageIcon(RESOURCE_PATH + (i * 4 + 4) + ".png").getImage();
+        }
+    }
+
+    public void showRestartButton() {
+        restartButton.setVisible(true);
+        repaint();
     }
 
     @Override
