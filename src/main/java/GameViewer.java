@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
 
 /*
  * GameViewer
@@ -17,7 +19,7 @@ import java.awt.event.KeyListener;
  * It listens for the ENTER key to switch screens.
  */
 
-public class GameViewer extends JFrame implements KeyListener {
+public class GameViewer extends JFrame implements KeyListener, MouseListener  {
 
     // Reference to the Game logic class
     private Game window;
@@ -103,6 +105,7 @@ public class GameViewer extends JFrame implements KeyListener {
         drawDealingCards(g, 575, 350);
         drawScoring(g, 180, 420);
         checkWinLooseScreen(g, 400, 450);
+        drawRestart(g, 400, 650);
     }
 
     // Draws the welcome/instructions screen.
@@ -177,6 +180,13 @@ public class GameViewer extends JFrame implements KeyListener {
         g.drawString("BOT SCORE: " + window.getCurrentBotPoints(), x + 802, y);
     }
 
+    public void drawRestart(Graphics g, int x, int y) {
+        g.setColor(new Color(199, 52, 52));
+        g.fillRect(x, y, 200, 100);
+        g.setColor(Color.black);
+        g.drawString("RESTART", x + 480, y +60);
+    }
+
     // Checks wins or losses and prints said screen
     public void checkWinLooseScreen(Graphics g, int x, int y) {
         if (window.isGameOver()) {
@@ -226,5 +236,26 @@ public class GameViewer extends JFrame implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        this.repaint();
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 }

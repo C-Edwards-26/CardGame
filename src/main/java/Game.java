@@ -55,7 +55,7 @@ public class Game {
         System.out.println(INSTRUCTIONS);
     }
 
-    //Logic to intiialize the play game sq=equence
+    //Logic to initialize the play game sequence
     public void playGame() {
         printInstructions();
         gameOne();
