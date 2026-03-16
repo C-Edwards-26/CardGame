@@ -138,7 +138,7 @@ public class Game {
             System.out.println("It's a tie!");
             tie = true;
         }
-        viewer.repaint();
+        viewer.showRestartButton();
     }
 
 
@@ -219,6 +219,17 @@ public class Game {
             if (totalRanks[i].equals(r)) val = totalValues[i];
         }
         return new Card(r, s, val);
+    }
+
+    public void reset() {
+        currentPrizeCard = 0;
+        currentBotBid = 0;
+        currentPlayerBid = 0;
+        currentPlayerPoints = 0;
+        currentBotPoints = 0;
+        gameOver = false;
+        won = false;
+        tie = false;
     }
 
     // Getters for variable inputs for the gameViewer.
